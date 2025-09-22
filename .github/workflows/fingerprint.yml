@@ -1,0 +1,42 @@
+on: 
+  workflow_dispatch:
+
+
+jobs:
+
+  test_screenshots:
+    name: screenshots
+    runs-on: ubuntu-latest
+    steps:
+    
+    
+    - name: Setup Go
+      uses: actions/setup-go@v5
+      with:
+          go-version: '1.25.0'
+          
+          
+    - name: Fingerprint
+      run: |
+        rm -f wappalyzer.txt
+        sudo apt update
+        geckodriver --version
+        sudo rm /usr/bin/geckodriver
+        wget https://github.com/mozilla/geckodriver/releases/download/v0.36.0/geckodriver-v0.36.0-linux64.tar.gz
+        tar -xvzf geckodriver-v0.36.0-linux64.tar.gz
+        chmod +x geckodriver
+        sudo mv geckodriver /usr/bin/
+        geckodriver --version
+        
+
+
+
+
+
+
+
+
+
+
+
+
