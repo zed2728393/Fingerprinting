@@ -4,8 +4,8 @@ on:
 
 jobs:
 
-  test_screenshots:
-    name: screenshots
+  FingerPrint:
+    name: Fingerprint
     runs-on: ubuntu-latest
     steps:
     
