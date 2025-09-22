@@ -20,18 +20,28 @@ jobs:
       run: |
         rm -f wappalyzer.txt
         sudo apt update
-        geckodriver --version
+        sudo apt install pipx
+        pipx ensurepath
         sudo rm /usr/bin/geckodriver
         wget https://github.com/mozilla/geckodriver/releases/download/v0.36.0/geckodriver-v0.36.0-linux64.tar.gz
         tar -xvzf geckodriver-v0.36.0-linux64.tar.gz
         chmod +x geckodriver
         sudo mv geckodriver /usr/bin/
         geckodriver --version
+        pipx install wappalyzer
+        echo "-------------------------------"
+        echo "Starting wappalyzer"
+        echo "-------------------------------"
+        wappalyzer -i live_hosts.txt -oC wappalyzer.csv
+
+
         
-
-
-
-
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v4.6.2
+      with:
+        name: wappalyzer-scan
+        path: wappalyzer.csv
+    
 
 
 
