@@ -16,7 +16,7 @@ jobs:
   
     - name: Fingerprint
       run: |
-        rm -f wappalyzer.txt *.csv tomnom.txt
+        rm -f wappalyzer.txt 
         sudo apt update
         sudo apt install pipx whatweb git nodejs npm 
         pipx ensurepath
@@ -35,33 +35,15 @@ jobs:
           echo "Scanning $host"
           wappalyzer -i "$host" >> wappalyzer.txt
         done
-        sudo npm install -g yarn 
         
-        
-    - name: Clone wappalyzer repo
-      env:
-        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: |
-         git clone https://x-access-token:${GH_TOKEN}@github.com/wappalyzer/wappalyzer.git
-         cd wappalyzer
-         yarn install
-         yarn run link
-         cd ../
-         echo "Starting tomnom wappalyzer"
-         for host in $hosts; do
-           echo "Scanning $host using tomnom wappalyzer"
-           node src/drivers/npm/cli.js "$host" >> tomnom.txt
-         done
-
-     
-
+         
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v4.6.2
       with:
         name: wappalyzer-scan
         path: |
           wappalyzer.txt
-          tomnom.txt
+          
      
 
 
