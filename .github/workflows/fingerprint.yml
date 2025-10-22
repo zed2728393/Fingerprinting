@@ -18,8 +18,7 @@ jobs:
       run: |
         rm -f wappalyzer.txt 
         sudo apt update
-        sudo apt install pipx whatweb git nodejs npm 
-        pipx ensurepath
+        sudo apt install pipx 
         sudo rm /usr/bin/geckodriver
         wget https://github.com/mozilla/geckodriver/releases/download/v0.36.0/geckodriver-v0.36.0-linux64.tar.gz
         tar -xvzf geckodriver-v0.36.0-linux64.tar.gz
@@ -28,12 +27,16 @@ jobs:
         geckodriver --version
         pipx install wappalyzer
         echo "-------------------------------"
+        echo "Check Disk Space"
+        df -h
+        echo "-------------------------------"
         echo "Starting wappalyzer"
         echo "-------------------------------"
         hosts=$(cat live_hosts.txt)
         for host in $hosts; do
           echo "Scanning $host"
           wappalyzer -i "$host" >> wappalyzer.txt
+          tail wappalyzer.txt -n 1 
         done
         
          
